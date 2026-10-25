@@ -1,0 +1,20 @@
+services:
+  patchwork:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - patchwork-data:/data
+    restart: unless-stopped
+
+  # Optional: a fake field gateway streaming readings every 15 s.
+  gateway:
+    image: python:3.12-slim
+    profiles: ["sensors"]
+    depends_on: [patchwork]
+    volumes:
+      - ./scripts:/scripts:ro
+    command: ["python", "/scripts/gateway_simulator.py", "--api", "http://patchwork:8000", "--loop", "15"]
+
+volumes:
+  patchwork-data:

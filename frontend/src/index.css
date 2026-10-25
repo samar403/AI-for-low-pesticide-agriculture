@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/* Patchwork design tokens: "field notebook" (survey-sheet paper, ink, chartreuse marker). */
+@theme {
+  --color-paper: #f2eee3;
+  --color-paper-2: #e9e3d3;
+  --color-paper-3: #ddd5c0;
+  --color-ink: #17241c;
+  --color-ink-2: #2b3a30;
+  --color-ink-3: #5b675d;
+  --color-moss: #2e5b3b;
+  --color-moss-2: #3f7a50;
+  --color-lime: #cfe34b;
+  --color-lime-2: #e3f08f;
+  --color-weed: #d49a1e;
+  --color-pest: #c4452d;
+  --color-disease: #7b5aa6;
+  --color-spray: #1f7a8c;
+  --color-line: #cfc6ae;
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+}
+
+@layer components {
+/* Faint survey-grid paper texture. */
+.grid-paper {
+  background-image:
+    linear-gradient(to right, rgb(23 36 28 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(23 36 28 / 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.grid-paper-dark {
+  background-image:
+    linear-gradient(to right, rgb(242 238 227 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(242 238 227 / 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Crop marks on the corners of a "sheet". */
+.sheet {
+  position: relative;
+  background: #fbf9f3;
+  border: 1px solid var(--color-line);
+}
+.sheet::before,
+.sheet::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--color-ink);
+  pointer-events: none;
+}
+.sheet::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.sheet::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.marker {
+  background: linear-gradient(transparent 58%, var(--color-lime) 58%, var(--color-lime) 92%, transparent 92%);
+  padding: 0 0.1em;
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(45deg, rgb(31 122 140 / 0.35) 0 2px, transparent 2px 6px);
+}
+
+}
+
+input[type="range"] {
+  accent-color: var(--color-moss);
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-10%);
+  }
+  to {
+    transform: translateX(110%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
